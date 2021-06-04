@@ -1,5 +1,3 @@
-import SampleComponent from '../components/SampleComponent'
+import SignInPage from './signin';
 
-export default function Home() {
-  return <SampleComponent title="Index Page" linkTo="/other" />
-}
+export default SignInPage;
