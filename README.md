@@ -1,29 +1,13 @@
-# MobX State Tree with Typescript example
+# Alternate Frontend for Udemy "NestJS Zero to Hero" by Ariel Weinberger
 
-Usually splitting your app state into `pages` feels natural but sometimes you'll want to have global state for your app. This is an example on how you can use mobx that also works with our universal rendering approach.
+Check out [the course on Udemy](https://www.udemy.com/share/101ZIcAEUad1hTQH4F/), it's a very gently presented and enlightening intro to [NestJS](https://nestjs.com/).
 
-In this example we are going to display a digital clock that updates every second. The first render is happening in the server and the date will be `00:00:00`, then the browser will take over and it will start updating the date.
+Later on in the course Ariel provides a frontend, that isn't the subject of the course, but allows you to interact with the REST service, that is the main subject.
 
-To illustrate SSG and SSR, go to `/ssg` and `/ssr`, those pages are using Next.js data fetching methods to get the date in the server and return it as props to the page, and then the browser will hydrate the store and continue updating the date.
+I found it required Python-2 to install 🐍 and 😱, and I also wanted to learn more about [NextJS](https://nextjs.org/) not because the name is so similar with NestJS, but because the people at Vercel seem to be incredibly smart. ([Case in point, SWR](https://swr.vercel.app/))
 
-The trick here for supporting universal mobx is to separate the cases for the client and the server. When we are on the server we want to create a new store every time, otherwise different users data will be mixed up. If we are in the client we want to use always the same store. That's what we accomplish on `store.js`
-
-The clock, under `components/Clock.js`, has access to the state using the `inject` and `observer` functions from `mobx-react`. In this case Clock is a direct child from the page but it could be deep down the render tree.
-
-## Deploy your own
-
-Deploy the example using [Vercel](https://vercel.com?utm_source=github&utm_medium=readme&utm_campaign=next-example):
-
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/git/external?repository-url=https://github.com/vercel/next.js/tree/canary/examples/with-mobx-state-tree-typescript&project-name=with-mobx-state-tree-typescript&repository-name=with-mobx-state-tree-typescript)
-
-## How to use
-
-Execute [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app) with [npm](https://docs.npmjs.com/cli/init) or [Yarn](https://yarnpkg.com/lang/en/docs/cli/create/) to bootstrap the example:
-
-```bash
-npx create-next-app --example with-mobx-state-tree-typescript with-mobx-state-tree-typescript-app
-# or
-yarn create next-app --example with-mobx-state-tree-typescript with-mobx-state-tree-typescript-app
-```
-
-Deploy it to the cloud with [Vercel](https://vercel.com/new?utm_source=github&utm_medium=readme&utm_campaign=next-example) ([Documentation](https://nextjs.org/docs/deployment)).
+I tried to keep most of the code similar with Ariel's frontend, but this does have a few changes,
+* the router is taken out of MobX and the NextJS router is used instead (it's a core part of their platform)
+* the way the pages are set up is also different, also due to NextJS platform architecture
+* I didn't really think RxJS was necessary in the create-task form, when a `useEffect` is all it seems to need
+* Updated usage of MobX to avoid any warnings - coming from Redux that is a bit of a paradigm shift, and there are a lot of different version APIs to React/MobX.
