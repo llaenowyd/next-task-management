@@ -1,6 +1,9 @@
 {
-  "name": "with-mobx-state-tree-typescript",
+  "name": "next-task-management",
   "version": "1.0.0",
+  "description": "alternate frontend for Udemy \"NestJS Zero to Hero\" by Ariel Weinberger",
+  "author": "Collin Monahan <llaenowyd@gmail.com",
+  "license": "ISC",
   "scripts": {
     "dev": "next -p 3001",
     "build": "next build",
@@ -28,6 +31,5 @@
     "@types/react": "^16.4.12",
     "babel-plugin-styled-components": "^1.12.0",
     "prettier": "^2.3.0"
-  },
-  "license": "MIT"
+  }
 }
