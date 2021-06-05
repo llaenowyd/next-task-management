@@ -11,7 +11,7 @@ import {
 } from '@material-ui/core';
 import { Delete as DeleteIcon } from '@material-ui/icons';
 import styled from 'styled-components';
-import useTasksStore from '../stores/useTasksStore';
+import { useTasksStore } from './hooks';
 
 const CardContainer = styled.div`
   margin-bottom: 20px;

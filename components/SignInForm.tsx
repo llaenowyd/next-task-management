@@ -3,8 +3,8 @@ import { useRouter } from 'next/router';
 import { Button, TextField } from '@material-ui/core';
 import styled from 'styled-components';
 
+import { useUserStore } from './hooks';
 import ErrorMessage from './ErrorMessage';
-import useUserStore from '../stores/useUserStore';
 
 const Heading = styled.h1`
   margin-top: 0;

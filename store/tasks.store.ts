@@ -30,6 +30,11 @@ export default class TasksStore {
   }
 
   @action
+  setTasks(nextTasks) {
+    this.tasks = nextTasks;
+  }
+
+  @action
   async createTask(title, description) {
     const result = await this.tasksService.createTask(title, description);
 

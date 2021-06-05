@@ -3,7 +3,7 @@ import { useRouter } from 'next/router';
 import { Button, TextField } from '@material-ui/core';
 import styled from 'styled-components';
 
-import useUserStore from '../stores/useUserStore';
+import { useUserStore } from './hooks';
 import ErrorMessage from './ErrorMessage';
 
 const Heading = styled.h1`

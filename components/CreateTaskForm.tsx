@@ -1,10 +1,9 @@
 import React from 'react';
 import { useRouter } from 'next/router';
-import { observer } from 'mobx-react-lite';
 import styled from 'styled-components';
 import { TextField, FormControl, Button } from '@material-ui/core';
+import { useTasksStore } from './hooks';
 import ErrorMessage from './ErrorMessage';
-import useTasksStore from '../stores/useTasksStore';
 
 const FormWrapper = styled.div`
   width: 100vw;

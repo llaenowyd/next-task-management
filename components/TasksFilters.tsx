@@ -1,4 +1,5 @@
 import React from 'react';
+import { useRouter } from 'next/router';
 import { observer } from 'mobx-react-lite';
 import {
   Grid,
@@ -10,8 +11,7 @@ import {
 } from '@material-ui/core';
 import { Search as SearchIcon } from '@material-ui/icons';
 import styled from 'styled-components';
-import useTasksStore from '../stores/useTasksStore';
-import { useRouter } from 'next/router';
+import { useTasksStore } from './hooks';
 
 const FiltersContainer = styled.div`
   margin-top: 20px;

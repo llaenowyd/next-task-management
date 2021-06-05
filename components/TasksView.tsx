@@ -4,10 +4,9 @@ import { observer } from 'mobx-react-lite';
 import styled from 'styled-components';
 import { Fab, IconButton } from '@material-ui/core';
 import { Add as AddIcon, ExitToApp as SignOutIcon } from '@material-ui/icons';
+import { useTasksStore, useUserStore } from './hooks';
 import TasksFilters from './TasksFilters';
 import TasksList from './TasksList';
-import useTasksStore from '../stores/useTasksStore';
-import useUserStore from '../stores/useUserStore';
 
 const TasksWrapper = styled.div`
   width: 100%;
