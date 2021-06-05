@@ -5,9 +5,9 @@ import styled from 'styled-components';
 import { Fab, IconButton } from '@material-ui/core';
 import { Add as AddIcon, ExitToApp as SignOutIcon } from '@material-ui/icons';
 import { useTasksStore, useUserStore } from './hooks';
+import { fetchTasks } from './requests';
 import TasksFilters from './TasksFilters';
 import TasksList from './TasksList';
-import fetchTasks from './requests/fetchTasks';
 
 const TasksWrapper = styled.div`
   width: 100%;
@@ -53,10 +53,11 @@ const TasksView = () => {
   const userStore = useUserStore();
 
   const [filters, setFilters] = React.useState({
-    status: tasksStore.filters.status,
-    search: tasksStore.filters.search,
+    status: '',
+    search: '',
   });
 
+  // tbd consolidate
   const routeToIndex = () => router.push('/');
   const handle401 = async () => {
     window.localStorage.removeItem('accessToken');
@@ -83,7 +84,7 @@ const TasksView = () => {
 
   const handleSignOut = async () => {
     await signOut();
-    tasksStore.resetTasks();
+    tasksStore.setTasks([]);
   };
 
   return (
