@@ -9,7 +9,7 @@ export default class AuthService extends BaseHttpService {
     });
     const accessToken = result.data.accessToken;
     this.saveToken(accessToken);
-    return result.data.username;
+    return [result.data.username, result.data.accessToken];
   }
 
   async signup(username, password) {

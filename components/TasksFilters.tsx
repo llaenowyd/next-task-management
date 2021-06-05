@@ -1,5 +1,4 @@
 import React from 'react';
-import { useRouter } from 'next/router';
 import { observer } from 'mobx-react-lite';
 import {
   Grid,
@@ -11,7 +10,6 @@ import {
 } from '@material-ui/core';
 import { Search as SearchIcon } from '@material-ui/icons';
 import styled from 'styled-components';
-import { useTasksStore } from './hooks';
 
 const FiltersContainer = styled.div`
   margin-top: 20px;
@@ -23,29 +21,7 @@ const ControlContainer = styled.div`
   padding: 10px;
 `;
 
-const TasksFilters = () => {
-  const router = useRouter();
-  const tasksStore = useTasksStore();
-
-  const [filters, setFilters] = React.useState({
-    status: tasksStore.filters.status,
-    search: tasksStore.filters.search,
-  });
-
-  React.useEffect(() => {
-    (async () => {
-      try {
-        await tasksStore.updateFilters(filters);
-      } catch (error) {
-        const { statusCode } = error.response?.data || {};
-
-        if (statusCode === 401) {
-          await router.push('/');
-        }
-      }
-    })();
-  }, [filters]);
-
+const TasksFilters = ({ filters, setFilters }) => {
   const handleStatusFilterChange = (e) => {
     const status = e.target.value;
     setFilters({ ...filters, status });

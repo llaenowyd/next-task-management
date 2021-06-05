@@ -7,6 +7,7 @@ import { Add as AddIcon, ExitToApp as SignOutIcon } from '@material-ui/icons';
 import { useTasksStore, useUserStore } from './hooks';
 import TasksFilters from './TasksFilters';
 import TasksList from './TasksList';
+import fetchTasks from './requests/fetchTasks';
 
 const TasksWrapper = styled.div`
   width: 100%;
@@ -51,21 +52,26 @@ const TasksView = () => {
   const tasksStore = useTasksStore();
   const userStore = useUserStore();
 
+  const [filters, setFilters] = React.useState({
+    status: tasksStore.filters.status,
+    search: tasksStore.filters.search,
+  });
+
+  const handle401 = () => router.push('/');
+  const setTasks = (tasks) => tasksStore.setTasks(tasks);
+
   React.useEffect(() => {
     (async () => {
-      try {
-        if (tasksStore) {
-          await tasksStore.fetchTasks();
-        }
-      } catch (error) {
-        const { statusCode } = error.response?.data || {};
-
-        if (statusCode === 401) {
-          await router.push('/');
+      if (tasksStore) {
+        try {
+          await fetchTasks(userStore.accessToken, filters, handle401, setTasks);
+        } catch (error) {
+          console.error(error.message);
+          console.trace(error);
         }
       }
     })();
-  }, [tasksStore]);
+  }, [tasksStore, userStore]);
 
   const handleSignOut = async () => {
     userStore.signout();
@@ -97,7 +103,7 @@ const TasksView = () => {
         </CreateButtonContainer>
       </TasksHeader>
 
-      <TasksFilters />
+      <TasksFilters filters={filters} setFilters={setFilters} />
 
       <TasksContainer>
         <TasksList tasks={tasksStore.tasks} />
