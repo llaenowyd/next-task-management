@@ -1,14 +1,18 @@
-import runCorsMiddleware from '../../api_lib/runCorsMiddleware';
+import { runCorsMiddleware } from '../../api_lib';
+
+import qs from 'query-string';
 
 const baseUrl = 'http://localhost:3000';
-const endpoint = 'tasks';
+const endpoint = '/tasks';
 
 async function fetchTasks(req, res) {
-  // Run the middleware
   await runCorsMiddleware(req, res);
 
-  // Rest of the API logic
-  const response = await fetch(`${baseUrl}/${endpoint}`, {
+  const queryString = qs.stringify(req.query);
+
+  const search = queryString ? `?${queryString}` : '';
+
+  const response = await fetch(`${baseUrl}${endpoint}${search}`, {
     headers: { ['Authorization']: req.headers.authorization },
   });
 

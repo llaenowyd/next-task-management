@@ -57,21 +57,28 @@ const TasksView = () => {
     search: tasksStore.filters.search,
   });
 
-  const handle401 = () => router.push('/');
+  const routeToIndex = () => router.push('/');
+  const handle401 = async () => {
+    window.localStorage.removeItem('accessToken');
+    await routeToIndex();
+  };
   const setTasks = (tasks) => tasksStore.setTasks(tasks);
 
   React.useEffect(() => {
     (async () => {
-      if (tasksStore) {
-        try {
-          await fetchTasks(userStore.accessToken, filters, handle401, setTasks);
-        } catch (error) {
-          console.error(error.message);
-          console.trace(error);
-        }
+      if (!userStore.accessToken) {
+        await routeToIndex();
+        return;
+      }
+
+      try {
+        await fetchTasks(userStore.accessToken, filters, handle401, setTasks);
+      } catch (error) {
+        console.error(error.message);
+        console.trace(error);
       }
     })();
-  }, [tasksStore, userStore]);
+  }, [tasksStore, userStore, filters]);
 
   const handleSignOut = async () => {
     userStore.signout();

@@ -4,6 +4,7 @@ import { Button, TextField } from '@material-ui/core';
 import styled from 'styled-components';
 
 import { useUserStore } from './hooks';
+import { signIn } from './requests';
 import ErrorMessage from './ErrorMessage';
 
 const Heading = styled.h1`
@@ -28,16 +29,20 @@ const SignInForm = () => {
 
   const goToSignUp = () => router.push('/signup');
   const goToTasks = () => router.push('/tasks');
+  const setAccessToken = (accessToken) => {
+    window.localStorage.setItem('accessToken', accessToken);
+    userStore.setAccessToken(accessToken);
+  };
 
   const submit = async () => {
     setState({ ...state, errorMessage: null });
     const { username, password } = state;
 
     try {
-      await userStore.signin(username, password);
+      setAccessToken(await signIn(username, password));
       await goToTasks();
     } catch (error) {
-      const errorMessage = error.response.data.message;
+      const errorMessage = error.response?.data?.message ?? error.message;
       setState({ ...state, errorMessage });
     }
   };

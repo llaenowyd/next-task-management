@@ -1,5 +1,7 @@
 import queryString from 'query-string';
 
+import { drainContent } from './util';
+
 const apiEndpoint = '/api/fetchTasks';
 
 const makeRequestOptions = (accessToken) => ({
@@ -24,15 +26,13 @@ const fetchTasks = async (accessToken, filters, handle401, setStore) => {
     makeRequestOptions(accessToken),
   );
 
-  const isJson =
-    res.headers.get('Content-Type')?.startsWith('application/json') ?? false;
-  const content = await (isJson ? res.json() : res.text());
+  const content = await drainContent(res);
 
   if (!res.ok) {
     if (res.status === 401) {
       handle401();
     } else {
-      throw new Error(isJson ? content.message : content);
+      throw new Error(content?.message ?? content);
     }
   } else {
     setStore(content);

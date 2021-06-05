@@ -13,14 +13,19 @@ export default class UserStore {
   }
 
   @action
-  async signin(username, password) {
-    const [user, accessToken] = await this.authService.signin(
-      username,
-      password,
-    );
-    this.username = user;
+  setAccessToken(accessToken) {
     this.accessToken = accessToken;
   }
+
+  // @action
+  // async signin(username, password) {
+  //   const [user, accessToken] = await this.authService.signin(
+  //     username,
+  //     password,
+  //   );
+  //   this.username = user;
+  //   this.accessToken = accessToken;
+  // }
 
   @action
   async signup(username, password) {
@@ -30,6 +35,7 @@ export default class UserStore {
   @action
   signout() {
     this.username = null;
+    this.accessToken = null;
     this.authService.removeToken();
   }
 }
