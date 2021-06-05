@@ -1,16 +1,16 @@
 import { drainContent } from './util';
 
 const baseUrl = 'http://localhost:3001';
+const apiEndpoint = '/api/tasks';
 
-const deleteTask = async (accessToken, id, handle401) => {
-  const apiEndpoint = `/api/tasks/${id}`;
-
+const createTask = (accessToken, handle401) => async (title, description) => {
   const res = await fetch(`${baseUrl}${apiEndpoint}`, {
-    method: 'DELETE',
+    method: 'POST',
     headers: {
       ['Authorization']: `Bearer ${accessToken}`,
       ['Content-Type']: 'application/json',
     },
+    body: JSON.stringify({ title, description }),
   });
 
   const content = await drainContent(res);
@@ -22,6 +22,8 @@ const deleteTask = async (accessToken, id, handle401) => {
       throw new Error(content?.message ?? content);
     }
   }
+
+  return content;
 };
 
-export default deleteTask;
+export default createTask;

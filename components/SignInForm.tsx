@@ -3,8 +3,7 @@ import { useRouter } from 'next/router';
 import { Button, TextField } from '@material-ui/core';
 import styled from 'styled-components';
 
-import { useUserStore } from './hooks';
-import { signIn } from './requests';
+import { useApi, useUserStore } from './hooks';
 import ErrorMessage from './ErrorMessage';
 
 const Heading = styled.h1`
@@ -26,6 +25,7 @@ const FormField = styled(TextField)`
 const SignInForm = () => {
   const userStore = useUserStore();
   const router = useRouter();
+  const { signIn } = useApi();
 
   const goToSignUp = () => router.push('/signup');
   const goToTasks = () => router.push('/tasks');

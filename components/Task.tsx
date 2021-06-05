@@ -1,5 +1,4 @@
 import React from 'react';
-import { useRouter } from 'next/router';
 import {
   Card,
   CardContent,
@@ -12,8 +11,7 @@ import {
 } from '@material-ui/core';
 import { Delete as DeleteIcon } from '@material-ui/icons';
 import styled from 'styled-components';
-import { useTasksStore, useUserStore } from './hooks';
-import { deleteTask, updateTaskStatus } from './requests';
+import { useApi, useTasksStore } from './hooks';
 
 const CardContainer = styled.div`
   margin-bottom: 20px;
@@ -25,21 +23,12 @@ const CardTitle = styled.h1`
 `;
 
 const Task = ({ id, title, description, status }) => {
-  const router = useRouter();
   const tasksStore = useTasksStore();
-  const userStore = useUserStore();
-
-  // tbd consolidate
-  const routeToIndex = () => router.push('/');
-  const handle401 = async () => {
-    window.localStorage.removeItem('accessToken');
-    await routeToIndex();
-  };
+  const { deleteTask, updateTaskStatus } = useApi();
 
   const handleDeleteTask = () => {
     (async () => {
-      await deleteTask(userStore.accessToken, id, handle401);
-
+      await deleteTask(id);
       tasksStore.removeTask(id);
     })();
   };
@@ -49,12 +38,7 @@ const Task = ({ id, title, description, status }) => {
 
     (async () => {
       try {
-        await updateTaskStatus(
-          userStore.accessToken,
-          id,
-          nextStatus,
-          handle401,
-        );
+        await updateTaskStatus(id, nextStatus);
         tasksStore.updateTaskStatus(id, nextStatus);
       } catch (error) {
         console.trace(error);

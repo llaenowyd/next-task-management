@@ -18,7 +18,7 @@ const elideEmptyFilters = ({ search, status }) => ({
   ...elideValueWhenEmpty('status', status),
 });
 
-const fetchTasks = async (accessToken, filters, handle401, setStore) => {
+const fetchTasks = (accessToken, handle401) => async (filters, setStore) => {
   const queryStr = queryString.stringify(elideEmptyFilters(filters));
 
   const res = await fetch(

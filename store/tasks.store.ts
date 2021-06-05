@@ -12,6 +12,13 @@ export default class TasksStore {
     this.tasks = nextTasks;
   }
 
+  @action
+  clearTasks() {
+    if (this.tasks.length > 0) {
+      this.tasks = [];
+    }
+  }
+
   @action updateTaskStatus(id, status) {
     const task = this.tasks.find((task) => task.id === id);
     task.status = status;

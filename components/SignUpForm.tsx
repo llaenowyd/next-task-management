@@ -3,8 +3,7 @@ import { useRouter } from 'next/router';
 import { Button, TextField } from '@material-ui/core';
 import styled from 'styled-components';
 
-import { useUserStore } from './hooks';
-import { signUp } from './requests';
+import { useApi } from './hooks';
 import ErrorMessage from './ErrorMessage';
 
 const Heading = styled.h1`
@@ -24,6 +23,7 @@ const FormField = styled(TextField)`
 `;
 
 const SignUpForm = () => {
+  const { signUp } = useApi();
   const router = useRouter();
 
   const [state, setState] = React.useState({

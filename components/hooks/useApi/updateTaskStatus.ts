@@ -1,16 +1,17 @@
 import { drainContent } from './util';
 
 const baseUrl = 'http://localhost:3001';
-const apiEndpoint = '/api/tasks';
 
-const createTask = async (accessToken, title, description, handle401) => {
+const updateTaskStatus = (accessToken, handle401) => async (taskId, status) => {
+  const apiEndpoint = `/api/tasks/${taskId}/status`;
+
   const res = await fetch(`${baseUrl}${apiEndpoint}`, {
-    method: 'POST',
+    method: 'PATCH',
     headers: {
       ['Authorization']: `Bearer ${accessToken}`,
       ['Content-Type']: 'application/json',
     },
-    body: JSON.stringify({ title, description }),
+    body: JSON.stringify({ status }),
   });
 
   const content = await drainContent(res);
@@ -22,8 +23,6 @@ const createTask = async (accessToken, title, description, handle401) => {
       throw new Error(content?.message ?? content);
     }
   }
-
-  return content;
 };
 
-export default createTask;
+export default updateTaskStatus;

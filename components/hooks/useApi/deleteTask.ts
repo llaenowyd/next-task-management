@@ -2,16 +2,15 @@ import { drainContent } from './util';
 
 const baseUrl = 'http://localhost:3001';
 
-const updateTaskStatus = async (accessToken, taskId, status, handle401) => {
-  const apiEndpoint = `/api/tasks/${taskId}/status`;
+const deleteTask = (accessToken, handle401) => async (id) => {
+  const apiEndpoint = `/api/tasks/${id}`;
 
   const res = await fetch(`${baseUrl}${apiEndpoint}`, {
-    method: 'PATCH',
+    method: 'DELETE',
     headers: {
       ['Authorization']: `Bearer ${accessToken}`,
       ['Content-Type']: 'application/json',
     },
-    body: JSON.stringify({ status }),
   });
 
   const content = await drainContent(res);
@@ -25,4 +24,4 @@ const updateTaskStatus = async (accessToken, taskId, status, handle401) => {
   }
 };
 
-export default updateTaskStatus;
+export default deleteTask;

@@ -4,8 +4,7 @@ import { observer } from 'mobx-react-lite';
 import styled from 'styled-components';
 import { Fab, IconButton } from '@material-ui/core';
 import { Add as AddIcon, ExitToApp as SignOutIcon } from '@material-ui/icons';
-import { useTasksStore, useUserStore } from './hooks';
-import { fetchTasks } from './requests';
+import { useApi, useTasksStore } from './hooks';
 import TasksFilters from './TasksFilters';
 import TasksList from './TasksList';
 
@@ -50,42 +49,25 @@ const SignOutIconContainer = styled.div`
 const TasksView = () => {
   const router = useRouter();
   const tasksStore = useTasksStore();
-  const userStore = useUserStore();
+  const { fetchTasks, signOut } = useApi();
 
   const [filters, setFilters] = React.useState({
     status: '',
     search: '',
   });
 
-  // tbd consolidate
-  const routeToIndex = () => router.push('/');
-  const handle401 = async () => {
-    window.localStorage.removeItem('accessToken');
-    await routeToIndex();
-  };
-  const signOut = handle401;
   const setTasks = (tasks) => tasksStore.setTasks(tasks);
 
   React.useEffect(() => {
     (async () => {
-      if (!userStore.accessToken) {
-        await routeToIndex();
-        return;
-      }
-
       try {
-        await fetchTasks(userStore.accessToken, filters, handle401, setTasks);
+        await fetchTasks(filters, setTasks);
       } catch (error) {
         console.error(error.message);
         console.trace(error);
       }
     })();
-  }, [tasksStore, userStore, filters]);
-
-  const handleSignOut = async () => {
-    await signOut();
-    tasksStore.setTasks([]);
-  };
+  }, [filters]);
 
   return (
     <TasksWrapper>
@@ -104,7 +86,7 @@ const TasksView = () => {
           </Fab>
 
           <SignOutIconContainer>
-            <IconButton onClick={handleSignOut}>
+            <IconButton onClick={signOut}>
               <SignOutIcon className="signOutIcon" />
             </IconButton>
           </SignOutIconContainer>
