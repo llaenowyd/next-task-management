@@ -1,7 +1,7 @@
 import { drainContent } from './util';
 
 const baseUrl = 'http://localhost:3001';
-const apiEndpoint = '/api/createTask';
+const apiEndpoint = '/api/tasks';
 
 const createTask = async (accessToken, title, description, handle401) => {
   const res = await fetch(`${baseUrl}${apiEndpoint}`, {

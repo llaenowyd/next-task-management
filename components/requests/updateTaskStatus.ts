@@ -3,7 +3,7 @@ import { drainContent } from './util';
 const baseUrl = 'http://localhost:3001';
 
 const updateTaskStatus = async (accessToken, taskId, status, handle401) => {
-  const apiEndpoint = `/api/updateTaskStatus/${taskId}`;
+  const apiEndpoint = `/api/tasks/${taskId}/status`;
 
   const res = await fetch(`${baseUrl}${apiEndpoint}`, {
     method: 'PATCH',

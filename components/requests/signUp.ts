@@ -1,10 +1,13 @@
 import { drainContent } from './util';
 
 const baseUrl = 'http://localhost:3001';
-const apiEndpoint = '/api/signUp';
+const apiEndpoint = '/api/signup';
 
 const signUp = async (username, password) => {
   const res = await fetch(`${baseUrl}${apiEndpoint}`, {
+    headers: {
+      ['Content-Type']: 'application/json',
+    },
     method: 'POST',
     body: JSON.stringify({ username, password }),
   });

@@ -1,8 +1,26 @@
+import qs from 'query-string';
+import runCorsMiddleware from './runCorsMiddleware';
+
 const proxy = async (baseUrl, endpoint, req, res) => {
-  const response = await fetch(`${baseUrl}${endpoint}`, {
+  await runCorsMiddleware(req, res);
+
+  let search = '';
+  let body;
+
+  if (req.method === 'GET') {
+    const queryString = qs.stringify(req.query);
+
+    if (queryString) {
+      search = `?${queryString}`;
+    }
+  } else {
+    body = JSON.stringify(req.body);
+  }
+
+  const response = await fetch(`${baseUrl}${endpoint}${search}`, {
     headers: req.headers,
     method: req.method,
-    body: JSON.stringify(req.body),
+    body,
   });
 
   const content = await (res.headers?.['Content-Type']?.startsWith(

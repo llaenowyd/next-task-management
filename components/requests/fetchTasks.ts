@@ -2,7 +2,7 @@ import queryString from 'query-string';
 
 import { drainContent } from './util';
 
-const apiEndpoint = '/api/fetchTasks';
+const apiEndpoint = '/api/tasks';
 
 const makeRequestOptions = (accessToken) => ({
   headers: {
