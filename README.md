@@ -12,8 +12,7 @@ I tried to keep most of the code similar with Ariel's frontend, but this does ha
 * I didn't really think RxJS was necessary in the create-task form, when a `useEffect` is all it seems to need
 * Updated usage of MobX to avoid any warnings - coming from Redux that is a bit of a paradigm shift, and there are a lot of different version APIs to React/MobX.
 
-One major downside, the component (that does `useRouter`) handles the 401 exception and reroutes to the login page. Ariel's solution is a lot better where the
-`base-http-service` component handles that - no matter where it's called from. I think maybe routing is a higher level concern but this code just takes the
-shortest path to making it work in that regard.
-
-Also I'm terrible with Typescript and nearly gave up with trying to type things halfway through. 🤷‍♂️
+Updated!
+* Now with hooks based API
+* Restful frontend API endpoints
+* CORS is handled by the frontend - no need to write `app.enableCors()` in the service, although it won't hurt anything either.
