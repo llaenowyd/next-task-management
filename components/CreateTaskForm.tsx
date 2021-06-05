@@ -2,7 +2,8 @@ import React from 'react';
 import { useRouter } from 'next/router';
 import styled from 'styled-components';
 import { TextField, FormControl, Button } from '@material-ui/core';
-import { useTasksStore } from './hooks';
+import { useTasksStore, useUserStore } from './hooks';
+import { createTask } from './requests';
 import ErrorMessage from './ErrorMessage';
 
 const FormWrapper = styled.div`
@@ -24,6 +25,14 @@ const FormContainer = styled.div`
 const CreateTaskForm = () => {
   const router = useRouter();
   const tasksStore = useTasksStore();
+  const userStore = useUserStore();
+
+  // tbd consolidate
+  const routeToIndex = () => router.push('/');
+  const handle401 = async () => {
+    window.localStorage.removeItem('accessToken');
+    await routeToIndex();
+  };
 
   const [state, setState] = React.useState({
     title: '',
@@ -35,7 +44,15 @@ const CreateTaskForm = () => {
     const { title, description } = state;
 
     try {
-      await tasksStore.createTask(title, description);
+      const task = await createTask(
+        userStore.accessToken,
+        title,
+        description,
+        handle401,
+      );
+
+      tasksStore.addTask(task);
+
       await router.push('/tasks');
     } catch (error) {
       const errorMessage = error.response?.data?.message ?? 'Unknown error';
