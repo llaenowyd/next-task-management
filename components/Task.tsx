@@ -13,7 +13,7 @@ import {
 import { Delete as DeleteIcon } from '@material-ui/icons';
 import styled from 'styled-components';
 import { useTasksStore, useUserStore } from './hooks';
-import { updateTaskStatus } from './requests';
+import { deleteTask, updateTaskStatus } from './requests';
 
 const CardContainer = styled.div`
   margin-bottom: 20px;
@@ -29,15 +29,19 @@ const Task = ({ id, title, description, status }) => {
   const tasksStore = useTasksStore();
   const userStore = useUserStore();
 
-  const deleteTask = () => {
-    tasksStore.deleteTask(id);
-  };
-
   // tbd consolidate
   const routeToIndex = () => router.push('/');
   const handle401 = async () => {
     window.localStorage.removeItem('accessToken');
     await routeToIndex();
+  };
+
+  const handleDeleteTask = () => {
+    (async () => {
+      await deleteTask(userStore.accessToken, id, handle401);
+
+      tasksStore.removeTask(id);
+    })();
   };
 
   const handleStatusChange = (e) => {
@@ -84,7 +88,7 @@ const Task = ({ id, title, description, status }) => {
               </FormControl>
             </Grid>
             <Grid item>
-              <IconButton onClick={deleteTask}>
+              <IconButton onClick={handleDeleteTask}>
                 <DeleteIcon color="error" />
               </IconButton>
             </Grid>

@@ -1,10 +1,9 @@
 import { observable, action, makeAutoObservable } from 'mobx';
-import TasksService from '../services/tasks.service';
 
 export default class TasksStore {
   @observable tasks = [];
 
-  constructor(private tasksService: TasksService) {
+  constructor() {
     makeAutoObservable(this);
   }
 
@@ -24,9 +23,8 @@ export default class TasksStore {
   }
 
   @action
-  async deleteTask(id) {
+  removeTask(id) {
     const idx = this.tasks.findIndex((task) => task.id === id);
-    await this.tasksService.deleteTask(id);
     this.tasks.splice(idx, 1);
   }
 }
