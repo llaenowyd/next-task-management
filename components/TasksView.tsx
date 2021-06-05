@@ -62,6 +62,7 @@ const TasksView = () => {
     window.localStorage.removeItem('accessToken');
     await routeToIndex();
   };
+  const signOut = handle401;
   const setTasks = (tasks) => tasksStore.setTasks(tasks);
 
   React.useEffect(() => {
@@ -81,9 +82,8 @@ const TasksView = () => {
   }, [tasksStore, userStore, filters]);
 
   const handleSignOut = async () => {
-    userStore.signout();
+    await signOut();
     tasksStore.resetTasks();
-    await router.push('/signin');
   };
 
   return (

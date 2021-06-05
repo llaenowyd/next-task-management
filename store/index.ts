@@ -1,4 +1,3 @@
-import AuthService from '../services/auth.service';
 import TasksService from '../services/tasks.service';
 import TasksStore from './tasks.store';
 import UserStore from './user.store';
@@ -14,7 +13,7 @@ export interface Store {
 
 export const createStore: () => Store = () => ({
   tasksStore: new TasksStore(new TasksService()),
-  userStore: new UserStore(new AuthService()),
+  userStore: new UserStore(),
   hydrate: () => {},
 });
 

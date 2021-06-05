@@ -4,6 +4,7 @@ import { Button, TextField } from '@material-ui/core';
 import styled from 'styled-components';
 
 import { useUserStore } from './hooks';
+import { signUp } from './requests';
 import ErrorMessage from './ErrorMessage';
 
 const Heading = styled.h1`
@@ -23,7 +24,6 @@ const FormField = styled(TextField)`
 `;
 
 const SignUpForm = () => {
-  const userStore = useUserStore();
   const router = useRouter();
 
   const [state, setState] = React.useState({
@@ -36,10 +36,10 @@ const SignUpForm = () => {
     const { username, password } = state;
 
     try {
-      await userStore.signup(username, password);
+      await signUp(username, password);
       await router.push('/signin');
     } catch (error) {
-      const errorMessage = error.response.data.message;
+      const errorMessage = error.response?.data?.message ?? error.message;
       setState({ ...state, errorMessage });
     }
   };
