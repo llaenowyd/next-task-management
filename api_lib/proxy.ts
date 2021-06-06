@@ -1,7 +1,9 @@
 import qs from 'query-string';
 import runCorsMiddleware from './runCorsMiddleware';
 
-const proxy = async (baseUrl, endpoint, req, res) => {
+const apiUrl = process.env.API_URL;
+
+const proxy = async (endpoint, req, res) => {
   await runCorsMiddleware(req, res);
 
   let search = '';
@@ -17,7 +19,7 @@ const proxy = async (baseUrl, endpoint, req, res) => {
     body = JSON.stringify(req.body);
   }
 
-  const response = await fetch(`${baseUrl}${endpoint}${search}`, {
+  const response = await fetch(`${apiUrl}${endpoint}${search}`, {
     headers: req.headers,
     method: req.method,
     body,

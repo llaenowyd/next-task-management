@@ -7,7 +7,7 @@ async function proxyTaskEndpoint(req, res) {
 
   const endpoint = `/tasks/${id}`;
 
-  await proxy(baseUrl, endpoint, req, res);
+  await proxy(endpoint, req, res);
 }
 
 export default proxyTaskEndpoint;
