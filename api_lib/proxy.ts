@@ -21,7 +21,7 @@ const proxy = async (endpoint, req, res) => {
   }
 
   const response = await fetch(`${apiUrl}${endpoint}${search}`, {
-    headers: { ...req.headers, Host: apiHost },
+    headers: { ...req.headers, host: apiHost },
     method: req.method,
     body,
   });
