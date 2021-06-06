@@ -1,11 +1,9 @@
 import { drainContent } from './util';
 
-const baseUrl = 'http://localhost:3001';
-
 const updateTaskStatus = (accessToken, handle401) => async (taskId, status) => {
   const apiEndpoint = `/api/tasks/${taskId}/status`;
 
-  const res = await fetch(`${baseUrl}${apiEndpoint}`, {
+  const res = await fetch(apiEndpoint, {
     method: 'PATCH',
     headers: {
       ['Authorization']: `Bearer ${accessToken}`,

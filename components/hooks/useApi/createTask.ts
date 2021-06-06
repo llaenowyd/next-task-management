@@ -1,10 +1,9 @@
 import { drainContent } from './util';
 
-const baseUrl = 'http://localhost:3001';
 const apiEndpoint = '/api/tasks';
 
 const createTask = (accessToken, handle401) => async (title, description) => {
-  const res = await fetch(`${baseUrl}${apiEndpoint}`, {
+  const res = await fetch(apiEndpoint, {
     method: 'POST',
     headers: {
       ['Authorization']: `Bearer ${accessToken}`,

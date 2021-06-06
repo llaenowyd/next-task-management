@@ -1,11 +1,9 @@
 import { drainContent } from './util';
 
-const baseUrl = 'http://localhost:3001';
-
 const deleteTask = (accessToken, handle401) => async (id) => {
   const apiEndpoint = `/api/tasks/${id}`;
 
-  const res = await fetch(`${baseUrl}${apiEndpoint}`, {
+  const res = await fetch(apiEndpoint, {
     method: 'DELETE',
     headers: {
       ['Authorization']: `Bearer ${accessToken}`,
